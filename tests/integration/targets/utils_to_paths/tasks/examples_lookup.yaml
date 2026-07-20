@@ -1,5 +1,6 @@
 ---
 #### Simple examples
+
 - name: Set fact
   ansible.builtin.set_fact:
     a:
@@ -15,7 +16,6 @@
 - name: Set fact
   ansible.builtin.set_fact:
     paths: "{{ lookup('ansible.utils.to_paths', a) }}"
-
 # TASK [ansible.builtin.set_fact] ********************************************
 # ok: [nxos101] => changed=false
 #   ansible_facts:
@@ -36,9 +36,7 @@
 #       a.b.c.d[1]: 1
 #       a.b.c.e[0]: true
 #       a.b.c.e[1]: false
-
 #### Using a complex object
-
 # - name: Make an API call
 #   ansible.builtin.uri:
 #     url: "https://nxos101/restconf/data/openconfig-interfaces:interfaces"
@@ -49,11 +47,9 @@
 #     validate_certs: False
 #   register: result
 #   delegate_to: localhost
-
 # - name: Flatten the complex object
 #   ansible.builtin.set_fact:
 #     paths: "{{ lookup('ansible.utils.to_paths', result.json) }}"
-
 # TASK [Flatten the complex object] ******************************************
 # ok: [nxos101] => changed=false
 #   ansible_facts:

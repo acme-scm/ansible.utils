@@ -4,8 +4,8 @@
     file_type: file
     paths: "{{ role_path }}/tests"
     recurse: true
-  delegate_to: localhost
   register: found
+  delegate_to: localhost
 
 - name: Include tasks
   ansible.builtin.include_tasks: "{{ item.path }}"

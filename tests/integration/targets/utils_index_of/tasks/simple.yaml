@@ -7,7 +7,6 @@
         - true
         - false
         - 5
-
       b:
         - b1: 1
           b2: 2
@@ -38,21 +37,18 @@
       result: [0, 1, 2]
     # These are commented out due to jinja < 2.11 w/ 2.9, 'integer' not avaialable
     # can be enabled at a later date
-    # - test: "{{ complex.a|ansible.utils.index_of('integer') }}"
+    # - test: "{{ complex.a | ansible.utils.index_of('integer') }}"
     #   result: "3"
     # - test: "{{ lookup('ansible.utils.index_of', complex.a, 'integer') }}"
     #   result: "3"
-
     # - test: "{{ complex.b | ansible.utils.index_of('==', 1, 'b1') }}"
     #   result: 0
     # - test: "{{ lookup('ansible.utils.index_of', complex.b, '==', 1, 'b1') }}"
     #   result: 0
-
     - test: "{{ complex.c.c1 | ansible.utils.index_of('!=', 'c') }}"
       result: [0, 1]
     - test: "{{ lookup('ansible.utils.index_of', complex.c.c1, '!=', 'c') }}"
       result: [0, 1]
-
     - test: "{{ complex.d | ansible.utils.index_of('match', '.*d$') }}"
       result: [0, 1]
     - test: "{{ lookup('ansible.utils.index_of', complex.d, 'match', '.*d$') }}"

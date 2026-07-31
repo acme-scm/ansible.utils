@@ -16,39 +16,39 @@
       - rule: No name
         action: fail
 
-- name: validate configuration using config (with errors)
+- name: Validate configuration using config (with errors)
   ansible.builtin.set_fact:
     is_data_valid: "{{ fail_config is ansible.utils.validate(criteria=rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "is_data_valid == false"
+      - is_data_valid == false
 
-- name: validate configuration using config (with warnings)
+- name: Validate configuration using config (with warnings)
   ansible.builtin.set_fact:
     is_data_valid: "{{ warn_config is ansible.utils.validate(criteria=rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "is_data_valid == true"
+      - is_data_valid == true
 
-- name: validate configuration using config (all pass)
+- name: Validate configuration using config (all pass)
   ansible.builtin.set_fact:
     is_data_valid: "{{ pass_config is ansible.utils.validate(criteria=rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "is_data_valid == true"
+      - is_data_valid == true
 
-- name: invalid rules
+- name: Invalid rules
   ansible.builtin.set_fact:
     is_data_valid: "{{ pass_config is ansible.utils.validate(criteria=bad_rules, engine='ansible.utils.config') }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - ansible.builtin.assert:
     that:
-      - "result['failed'] == true"
+      - result['failed'] == true
       - '"is not one of \"warn\" or \"fail\"" in result["msg"]'
       - '"missing \"action\" key" in result["msg"]'
       - '"missing \"rule\" key" in result["msg"]'

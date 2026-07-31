@@ -1,6 +1,6 @@
 ---
 - example: Ethernet1/1 is up
-  getval: '(?P<name>\S+) is (?P<oper_state>\S+)'
+  getval: (?P<name>\S+) is (?P<oper_state>\S+)
   result:
     "{{ name }}":
       name: "{{ name }}"
@@ -9,7 +9,7 @@
   shared: true
 
 - example: admin state is up, Dedicated Interface
-  getval: 'admin state is (?P<admin_state>\S+)'
+  getval: admin state is (?P<admin_state>\S+)
   result:
     "{{ name }}":
       name: "{{ name }}"
@@ -17,7 +17,7 @@
         admin: "{{ admin_state }}"
 
 - example: "  Hardware: Ethernet, address: 5254.005a.f8b5 (bia 5254.005a.f8b5)"
-  getval: '\s+Hardware: (?P<hardware>.*), address: (?P<mac>\S+)'
+  getval: "\\s+Hardware: (?P<hardware>.*), address: (?P<mac>\\S+)"
   result:
     "{{ name }}":
       hardware: "{{ hardware }}"

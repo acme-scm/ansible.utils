@@ -9,7 +9,6 @@ keep_values:
         - description: Eth1 - VIF 101
     - interface_name: eth2
       description: Configured by Ansible - Interface 2 (ADMIN DOWN)
-
 keep_default:
   default:
     - interface_name: eth0
@@ -22,7 +21,6 @@ keep_default:
           is_enabled: true
     - interface_name: eth2
       is_enabled: false
-
 keep_tomcat:
   tomcat:
     tomcats_block:

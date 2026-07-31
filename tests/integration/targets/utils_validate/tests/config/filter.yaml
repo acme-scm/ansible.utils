@@ -16,41 +16,41 @@
       - rule: No name
         action: fail
 
-- name: validate configuration using config (with errors)
+- name: Validate configuration using config (with errors)
   ansible.builtin.set_fact:
-    data_criteria_checks: "{{ fail_config|ansible.utils.validate(rules, engine='ansible.utils.config') }}"
+    data_criteria_checks: "{{ fail_config | ansible.utils.validate(rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "data_criteria_checks[0].found == 'interface Eth1/1'"
-      - "data_criteria_checks[1].found == 'interface Loopback 10'"
-      - "data_criteria_checks[2].found == 'interface po2.1'"
+      - data_criteria_checks[0].found == 'interface Eth1/1'
+      - data_criteria_checks[1].found == 'interface Loopback 10'
+      - data_criteria_checks[2].found == 'interface po2.1'
 
-- name: validate configuration using config (with warnings)
+- name: Validate configuration using config (with warnings)
   ansible.builtin.set_fact:
-    data_criteria_checks: "{{ warn_config|ansible.utils.validate(rules, engine='ansible.utils.config') }}"
+    data_criteria_checks: "{{ warn_config | ansible.utils.validate(rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "data_criteria_checks == []"
+      - data_criteria_checks == []
 
-- name: validate configuration using config (all pass)
+- name: Validate configuration using config (all pass)
   ansible.builtin.set_fact:
-    data_criteria_checks: "{{ pass_config|ansible.utils.validate(rules, engine='ansible.utils.config') }}"
+    data_criteria_checks: "{{ pass_config | ansible.utils.validate(rules, engine='ansible.utils.config') }}"
 
 - ansible.builtin.assert:
     that:
-      - "data_criteria_checks == []"
+      - data_criteria_checks == []
 
-- name: invalid rules
+- name: Invalid rules
   ansible.builtin.set_fact:
-    data_criteria_checks: "{{ pass_config|ansible.utils.validate(bad_rules, engine='ansible.utils.config') }}"
-  ignore_errors: true
+    data_criteria_checks: "{{ pass_config | ansible.utils.validate(bad_rules, engine='ansible.utils.config') }}"
   register: result
+  ignore_errors: true
 
 - ansible.builtin.assert:
     that:
-      - "result['failed'] == true"
+      - result['failed'] == true
       - '"is not one of \"warn\" or \"fail\"" in result["msg"]'
       - '"missing \"action\" key" in result["msg"]'
       - '"missing \"rule\" key" in result["msg"]'

@@ -30,7 +30,6 @@ show_interfaces:
     mtu: 1514
     oper_status: up
     type: GigabitEthernet
-
 oper_status:
   type: object
   patternProperties:
@@ -40,7 +39,6 @@ oper_status:
         oper_status:
           type: string
           pattern: up
-
 enable_check:
   type: object
   patternProperties:
@@ -50,7 +48,6 @@ enable_check:
         enabled:
           enum:
             - true
-
 crc_error_check:
   type: object
   patternProperties:
@@ -62,7 +59,6 @@ crc_error_check:
             in_crc_errors:
               type: number
               maximum: 0
-
 in_rate_check:
   type: object
   patternProperties:

@@ -1,5 +1,6 @@
 ---
 #### Simple examples
+
 - name: Set fact
   ansible.builtin.set_fact:
     data:
@@ -10,7 +11,6 @@
 - name: Find the index of 2
   ansible.builtin.set_fact:
     indices: "{{ data | ansible.utils.index_of('eq', 2) }}"
-
 # TASK [Find the index of 2] *************************************************
 # ok: [nxos101] => changed=false
 #   ansible_facts:
@@ -19,7 +19,6 @@
 - name: Find the index of 2, ensure list is returned
   ansible.builtin.set_fact:
     indices: "{{ data | ansible.utils.index_of('eq', 2, wantlist=true) }}"
-
 # TASK [Find the index of 2, ensure list is returned] ************************
 # ok: [nxos101] => changed=false
 #   ansible_facts:
@@ -31,27 +30,23 @@
     indices: "{{ data | ansible.utils.index_of(test='eq', value=value, wantlist=true) }}"
   vars:
     value: 3
-
 # TASK [Find the index of 3 using the long format] ***************************
 # ok: [nxos101] => changed=false
 #   ansible_facts:
 #     indices:
 #     - 2
-
 # - name: Find numbers greater than 1, using loop
 #   ansible.builtin.debug:
 #     msg: "{{ data[item] }} is {{ test }} than {{ value }}"
-#   loop: "{{ data|ansible.utils.index_of(test, value) }}"
+#   loop: "{{ data | ansible.utils.index_of(test, value) }}"
 #   vars:
 #     test: '>'
 #     value: 1
-
 # TASK [Find numbers great than 1, using loop] *******************************
 # ok: [sw01] => (item=1) =>
 #   msg: 2 is > than 1
 # ok: [sw01] => (item=2) =>
 #   msg: 3 is > than 1
-
 #### Working with lists of dictionaries
 
 - name: Set fact
@@ -69,7 +64,6 @@
 - name: Find the index of all firewalls using the type key
   ansible.builtin.set_fact:
     firewalls: "{{ data | ansible.utils.index_of('eq', 'firewall', 'type') }}"
-
 # TASK [Find the index of all firewalls using the type key] ******************
 # ok: [nxos101] => changed=false
 #   ansible_facts:
@@ -79,11 +73,10 @@
 
 - name: Find the index of all firewalls, use in a loop
   ansible.builtin.debug:
-    msg: "The type of {{ device_type }} at index {{ item }} has name {{ data[item].name }}."
+    msg: The type of {{ device_type }} at index {{ item }} has name {{ data[item].name }}.
   loop: "{{ data | ansible.utils.index_of('eq', device_type, 'type') }}"
   vars:
     device_type: firewall
-
 # TASK [Find the index of all firewalls, use in a loop, as a filter] *********
 # ok: [nxos101] => (item=2) =>
 #   msg: The type of firewall at index 2 has name fw01.example.corp.
@@ -92,25 +85,21 @@
 
 - name: Find the index of all devices with a .corp name
   ansible.builtin.debug:
-    msg: "The device named {{ data[item].name }} is a {{ data[item].type }}"
+    msg: The device named {{ data[item].name }} is a {{ data[item].type }}
   loop: "{{ data | ansible.utils.index_of('regex', expression, 'name') }}"
   vars:
-    expression: '\.corp$'
+    expression: \.corp$
 # ends with .corp
-
 # TASK [Find the index of all devices with a .corp name] *********************
 # ok: [nxos101] => (item=2) =>
 #   msg: The device named fw01.example.corp is a firewall
 # ok: [nxos101] => (item=3) =>
 #   msg: The device named fw02.example.corp is a firewall
-
 #### Working with complex structures from resource modules
-
 # - name: Retrieve the current L3 interface configuration
 #   cisco.nxos.nxos_l3_interfaces:
 #     state: gathered
 #   register: current_l3
-
 # TASK [Retrieve the current L3 interface configuration] *********************
 # ok: [sw01] => changed=false
 #   gathered:
@@ -121,7 +110,6 @@
 #   - ipv4:
 #     - address: 192.168.101.14/24
 #     name: mgmt0
-
 # - name: Find the indices interfaces with a 192.168.101.xx ip address
 #   ansible.builtin.set_fact:
 #     found: "{{ found + entry }}"
@@ -129,31 +117,27 @@
 #   vars:
 #     found: []
 #     ip: '192.168.101.'
-#     address: "{{ item.1.ipv4|d([])|ansible.utils.index_of('search', ip, 'address', wantlist=true) }}"
+#     address: "{{ item.1.ipv4 | d([]) | ansible.utils.index_of('search', ip, 'address', wantlist=true) }}"
 #     entry:
 #     - interface_idx: "{{ item.0 }}"
 #       address_idxs: "{{ address }}"
 #   when: address
-
 # TASK [debug] ***************************************************************
 # ok: [sw01] =>
 #   found:
 #   - address_idxs:
 #     - 0
 #     interface_idx: '128'
-
 # - name: Show all interfaces and their address
 #   ansible.builtin.debug:
 #     msg: "{{ interface.name }} has ip {{ address }}"
-#   loop: "{{ found|subelements('address_idxs') }}"
+#   loop: "{{ found | subelements('address_idxs') }}"
 #   vars:
-#     interface: "{{ current_l3.gathered[item.0.interface_idx|int] }}"
+#     interface: "{{ current_l3.gathered[item.0.interface_idx | int] }}"
 #     address: "{{ interface.ipv4[item.1].address }}"
-
 # TASK [Show all interfaces and their address] *******************************
 # ok: [nxos101] => (item=[{'interface_idx': '128', 'address_idxs': [0]}, 0]) =>
 #   msg: mgmt0 has ip 192.168.101.14/24
-
 #### Working with deeply nested data
 
 - name: Set fact
@@ -220,7 +204,6 @@
       {{ data.interfaces.interface[int_idx | int]
             .subinterfaces.subinterface |
                 ansible.utils.index_of('eq', sub_index, 'index') }}
-
 # TASK [Find the description of loopback111, subinterface index 10] ************
 # ok: [sw01] =>
 #   msg: subinterface configured by Ansible - 3

@@ -6,9 +6,9 @@
     recurse: false
     use_regex: true
     patterns:
-      - "^(?!_|main).+$"
-  delegate_to: localhost
+      - ^(?!_|main).+$
   register: found
+  delegate_to: localhost
 
 - name: Include tasks
   ansible.builtin.include_tasks: "{{ item.path }}"

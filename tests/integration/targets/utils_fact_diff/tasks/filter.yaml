@@ -6,18 +6,18 @@
     plugin:
       vars:
         skip_lines:
-          - "+"
+          - +
 
 - name: Check for graceful fail of invalid regex
   ansible.builtin.set_fact: "{{ before | ansible.utils.fact_diff(after, plugin) }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - name: Assert
   ansible.builtin.assert:
     that: "{{ msg in result.msg }}"
   vars:
-    msg: "The regex '+', is not valid"
+    msg: The regex '+', is not valid
 
 - name: Check argspec validation
   ansible.builtin.set_fact:

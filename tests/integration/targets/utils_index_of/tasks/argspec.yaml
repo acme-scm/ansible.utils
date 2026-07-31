@@ -15,20 +15,20 @@
 - name: Check argspec validation with filter (not a list)
   ansible.builtin.set_fact:
     _result: "{{ complex | ansible.utils.index_of('eq', 2) }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - name: Assert
   ansible.builtin.assert:
     that: "{{ msg in result.msg }}"
   vars:
-    msg: "cannot be converted to a list"
+    msg: cannot be converted to a list
 
 - name: Check argspec validation with filter (missing params)
   ansible.builtin.set_fact:
     _result: "{{ complex.a.b.c.d | ansible.utils.index_of() }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - name: Assert
   ansible.builtin.assert:
@@ -39,20 +39,20 @@
 - name: Check argspec validation with lookup (not a list)
   ansible.builtin.set_fact:
     _result: "{{ lookup('ansible.utils.index_of', complex, 'eq', 2) }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - name: Assert
   ansible.builtin.assert:
     that: "{{ msg in result.msg }}"
   vars:
-    msg: "cannot be converted to a list"
+    msg: cannot be converted to a list
 
 - name: Check argspec validation with lookup (missing params)
   ansible.builtin.set_fact:
     _result: "{{ lookup('ansible.utils.index_of') }}"
-  ignore_errors: true
   register: result
+  ignore_errors: true
 
 - name: Assert
   ansible.builtin.assert:

@@ -31,7 +31,6 @@ ignorePaths:
   - bindep.txt
   # The tox configuration file
   - tox.ini
-
 languageSettings:
   - languageId: python
     allowCompoundWords: false
